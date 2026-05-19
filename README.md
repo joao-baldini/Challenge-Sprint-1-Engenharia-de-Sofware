@@ -2,7 +2,7 @@
 
 # 🛡️ Projeto FutureVision: Visão Computacional e Prevenção Proativa na Metaindústria
 
-## 👥 Integrantes: João Viviani Baldini - 558596 / Lucas Costa Sanson - 556042
+## 👥 Integrantes: João Viviani Baldini - 558596 / Lucas Costa Sanson - 556042 / Giuliano Ferreira Venceslau - 558674 / Eric Perez Martinez Melillo Siciliano - 558651 / Enrico Nikolay Meirelles Zeronian - 558557
 
 
 ### 1. Contexto e Problema Abordado: 
