@@ -35,3 +35,7 @@ Para atender aos rigorosos requisitos de baixa latência e alta confiabilidade e
 Os diagramas abaixo foram modelados de forma integrada para garantir a coesão técnica do ecossistema: os Casos de Uso guiam o fluxo das Atividades, e as Classes fornecem a estrutura de dados necessária para suportá-los.
 
 Diagramas de Casos de Uso, Atividades e Classes renderizados no [Documento de Modelagem UML (DIAGRAMAS.md)](DIAGRAMAS.md)
+
+## 📋 Engenharia de Requisitos 
+
+Análise detalhada de personas, requisitos funcionais (RF), não funcionais (RNF) e restrições no [Documento de Levantamento de Requisitos (Documento de levantamento de requisitos.pdf)](Documento de levantamento de requisitos.pdf).
