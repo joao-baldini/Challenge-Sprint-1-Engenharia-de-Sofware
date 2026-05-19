@@ -7,7 +7,8 @@
 
 ## 💡 1. Contexto e Problema Abordado: 
 
-### O ambiente industrial da Metaindústria lida diariamente com cenários complexos onde a integridade física dos operadores está exposta a riscos de alta gravidade (máquinas pesadas, zonas de alta temperatura e movimentação de cargas). O modelo tradicional de segurança do trabalho atua de forma punitiva ou reativa: identifica-se a infração (ex: operador sem capacete) após o evento ou o acidente já ter ocorrido.  O problema central reside na latência humana e reativa. A falta de ferramentas inteligentes que consigam interpretar dados comportamentais em tempo real impede que supervisores ajam antes que o risco se converta em um acidente de trabalho incapacitante ou fatal.  
+### O ambiente industrial da Metaindústria lida diariamente com cenários complexos onde a integridade física dos operadores está exposta a riscos de alta gravidade (máquinas pesadas, zonas de alta temperatura e movimentação de cargas). O modelo tradicional de segurança do trabalho atua de forma punitiva ou reativa: identifica-se a infração (ex: operador sem capacete) após o evento ou o acidente já ter ocorrido.  
+### O problema central reside na latência humana e reativa. A falta de ferramentas inteligentes que consigam interpretar dados comportamentais em tempo real impede que supervisores ajam antes que o risco se converta em um acidente de trabalho incapacitante ou fatal.  
 
 ## ✅ 2. Proposta de Solução: 
 
@@ -25,12 +26,12 @@
 
 ### Para atender aos rigorosos requisitos de baixa latência e alta confiabilidade exigidos pela SPI e pelo ambiente industrial, a pilha tecnológica foi definida da seguinte forma: 
 
-- Linguagem de programação principal: Python, pois é uma ótima linguagem para tratar de projetos que utilizam de ciência de dados e IA, permitindo integração nativa com bibliotecas de Visão Computacional.
-- Visão Computacional: OpenCV + Ultralytics (YOLOv8), oferece inferência state-of-the-art em tempo real (essencial para prevenção ativa) com excelente custo-benefício computacional.
-- Estimativa de Pose: Media Pipe, tem um framework leve e altamente otimizado para mapeamento de pontos articulados corporais, ideal para detecção de riscos ergonômicos.
-- Backend / API: FastAPI, possui um framework assíncrono em Python de altíssima performance (equivalente a Go e Node.js), garantindo que os alertas cheguem ao dashboard sem gargalos.
-- Banco de Dados Relacional: Oracle Database, principalmente, por termos familiaridade com o uso e sua capacidade de governança de dados para cadastro de funcionários, histórico de alertas consolidados e métricas de conformidade.
-- Frontend & Dashboard: Streamlit / React, pois é possivel criar interfaces ricas e dinâmicas para exibição de fluxos de vídeo analíticos e dashboards industriais acionáveis para os tomadores de decisão.
+- **Linguagem de programação principal:** Python, pois é uma ótima linguagem para tratar de projetos que utilizam de ciência de dados e IA, permitindo integração nativa com bibliotecas de Visão Computacional.
+- **Visão Computacional:** OpenCV + Ultralytics (YOLOv8), oferece inferência state-of-the-art em tempo real (essencial para prevenção ativa) com excelente custo-benefício computacional.
+- **Estimativa de Pose:** Media Pipe, tem um framework leve e altamente otimizado para mapeamento de pontos articulados corporais, ideal para detecção de riscos ergonômicos.
+- **Backend / API:** FastAPI, possui um framework assíncrono em Python de altíssima performance (equivalente a Go e Node.js), garantindo que os alertas cheguem ao dashboard sem gargalos.
+- **Banco de Dados Relacional:** Oracle Database, principalmente, por termos familiaridade com o uso e sua capacidade de governança de dados para cadastro de funcionários, histórico de alertas consolidados e métricas de conformidade.
+- **Frontend & Dashboard:** Streamlit / React, pois é possivel criar interfaces ricas e dinâmicas para exibição de fluxos de vídeo analíticos e dashboards industriais acionáveis para os tomadores de decisão.
 
 ## 🗺️ 4. Modelagem do Sistema (UML)
 
