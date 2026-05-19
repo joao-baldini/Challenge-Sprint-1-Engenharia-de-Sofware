@@ -36,6 +36,6 @@ Os diagramas abaixo foram modelados de forma integrada para garantir a coesão t
 
 Diagramas de Casos de Uso, Atividades e Classes renderizados no [Documento de Modelagem UML (DIAGRAMAS.md)](DIAGRAMAS.md)
 
-## 📋 Engenharia de Requisitos 
+## 📋 5. Engenharia de Requisitos 
 
-Análise detalhada de personas, requisitos funcionais (RF), não funcionais (RNF) e restrições no [Documento de Levantamento de Requisitos (Documento de levantamento de requisitos.pdf)](Documento de levantamento de requisitos.pdf).
+Análise detalhada de personas, requisitos funcionais (RF), não funcionais (RNF) e restrições no [Documento de Levantamento de Requisitos (REQUISITOS.md)](REQUISITOS.md)
