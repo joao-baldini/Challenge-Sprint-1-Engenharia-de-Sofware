@@ -29,3 +29,7 @@ Para atender aos rigorosos requisitos de baixa latência e alta confiabilidade e
 - Backend / API: FastAPI, possui um framework assíncrono em Python de altíssima performance (equivalente a Go e Node.js), garantindo que os alertas cheguem ao dashboard sem gargalos.
 - Banco de Dados Relacional: Oracle Database, principalmente, por termos familiaridade com o uso e sua capacidade de governança de dados para cadastro de funcionários, histórico de alertas consolidados e métricas de conformidade.
 - Frontend & Dashboard: Streamlit / React, pois é possivel criar interfaces ricas e dinâmicas para exibição de fluxos de vídeo analíticos e dashboards industriais acionáveis para os tomadores de decisão.
+
+## 🗺️ 4. Modelagem do Sistema (UML)
+
+Os diagramas abaixo foram modelados de forma integrada para garantir a coesão técnica do ecossistema: os Casos de Uso guiam o fluxo das Atividades, e as Classes fornecem a estrutura de dados necessária para suportá-los.
