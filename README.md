@@ -1,4 +1,4 @@
-# Challenge - Sprint 1 - Engenharia de Sofware
+# Challenge - Sprint 1 e 2 - Engenharia de Sofware
 
 # 🛡️ Projeto FutureVision: Visão Computacional e Prevenção Proativa na Metaindústria
 
@@ -42,3 +42,13 @@ Diagramas de Casos de Uso, Atividades e Classes renderizados no [Documento de Mo
 ## 📋 5. Engenharia de Requisitos 
 
 Análise detalhada de personas, requisitos funcionais (RF), não funcionais (RNF) e restrições no [Documento de Levantamento de Requisitos (REQUISITOS.md)](REQUISITOS.md)
+
+## 📲 6. Protótipo da aplicação e instruções de uso
+
+Alguns botões não estão funcionais, porém todo o escopo e design da aplicação referente ao projeto estão completos.
+
+### 👨‍🏫 Instruções para uso
+
+
+
+Aplicação disponível em [(spi-prototipo.html)](spi-prototipo.html)
