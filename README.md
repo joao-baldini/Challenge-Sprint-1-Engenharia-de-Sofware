@@ -96,4 +96,4 @@ O app possui uma **barra de navegação inferior** com acesso rápido a:
 
 ---
 
-**Aplicação disponível em [(spi-prototipo.html)](spi-prototipo.html)**
+**Aplicação disponível em [(spi-prototipo.html)](spi-prototipo.html) (Botão de download próximo ao canto superior direito)**
