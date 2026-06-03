@@ -49,6 +49,51 @@ Alguns botões não estão funcionais, porém todo o escopo e design da aplicaç
 
 ### 👨‍🏫 Instruções para uso
 
+---
 
+**Tela Principal — Home**
+- Ao abrir o app você verá o **dashboard** com os totais de alertas abertos, conformidade geral, colaboradores e setores ativos
+- Os **alertas críticos recentes** aparecem em destaque no topo
+- Use o **menu principal** para navegar entre as funcionalidades
 
-Aplicação disponível em [(spi-prototipo.html)](spi-prototipo.html)
+---
+
+**Fluxo 1 — EPIs por Colaborador**
+1. Na Home, toque em **EPIs por Colaborador**
+2. Use a **barra de busca** para encontrar um colaborador pelo nome
+3. Toque no colaborador para ver a **lista de EPIs cadastrados** com status e validade
+4. Toque em **+ EPI** para cadastrar um novo equipamento
+5. Preencha o tipo de EPI, número do CA, data de entrega e validade
+6. Toque em **Registrar EPI** para salvar
+
+---
+
+**Fluxo 2 — Alertas de Risco**
+1. Na Home, toque em **Alertas de Risco**
+2. Visualize todos os alertas organizados por **nível de severidade** (Crítico, Alto, Médio, Baixo)
+3. Toque em um alerta para ver o **detalhe completo** com localização, câmera, colaborador e confiança da IA
+4. Para emitir um novo alerta manualmente, toque em **+ Emitir**
+5. Selecione o tipo de risco, severidade, localização e câmera
+6. Toque em **Emitir Alerta** para registrar e notificar a equipe
+
+---
+
+**Fluxo 3 — Relatório de Conformidade**
+1. Na Home, toque em **Relatório de Conformidade**
+2. Visualize o **índice geral** de conformidade da fábrica
+3. Consulte a **conformidade por setor** com barra de progresso, número de alertas e EPIs vencendo
+4. Toque em **Exportar PDF** para gerar o relatório
+5. Toque em **Enviar por E-mail** para compartilhar com a equipe
+
+---
+
+**Navegação**
+O app possui uma **barra de navegação inferior** com acesso rápido a:
+- 🏠 Home
+- ⚠️ Alertas
+- 👷 EPIs
+- 📊 Relatório
+
+---
+
+**Aplicação disponível em [(spi-prototipo.html)](spi-prototipo.html)**
