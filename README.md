@@ -106,17 +106,42 @@ Formulários de cadastro de EPI e de emissão de alerta permitiam avançar em br
 Telas de perfil do colaborador e detalhe do alerta não tinham navegação inferior, deixando o usuário "preso" na tela — adicionada a barra de navegação padrão.
 
 🗂️ 8. Gestão Ágil — Scrum
-Board Trello: <!-- TODO: colar aqui o link do board público do Trello -->
-Colunas: Product Backlog, Sprint Backlog, Em andamento, Em revisão, Concluído
-Cards refletindo as tarefas reais da Sprint 3 (evolução do protótipo, documentação, arquitetura), com responsável e status atualizados.
-Artefatos Scrum documentados:
-Product Backlog priorizado
-Sprint Backlog da Sprint 3
-Definition of Done (DoD)
-Cerimônias da Sprint 3: <!-- TODO: colar aqui o link do documento/pasta com as atas -->
-Ata de Planning
-Registro das Dailies (assíncrono)
-Ata de Review
+## 🗂️ 8. Gestão Ágil — Scrum
+
+Na Sprint 3, o trabalho do grupo foi organizado utilizando Scrum, com acompanhamento das atividades por meio de um board no Trello.
+
+### 📌 Board Scrum — Trello : https://trello.com/invite/b/6ab1ddd41dfe3844ba17ad61/ATTI1a4b448a4c20d288a998f1fd41372de577EBAD2B/spi-alert-sprint-3-futurevision
+
+O board foi estruturado com as seguintes etapas:
+
+- Product Backlog
+- Sprint Backlog — Sprint 3
+- Em andamento
+- Em revisão
+- Concluído
+
+🔗 **Trello:** COLE_AQUI_O_LINK_DO_TRELLO
+
+### 📋 Artefatos Scrum
+
+Foram definidos e documentados:
+
+- Product Backlog priorizado;
+- Sprint Backlog da Sprint 3;
+- Definition of Done (DoD);
+- Responsáveis e status das atividades.
+
+### 🔄 Cerimônias Scrum
+
+Foram documentadas as cerimônias realizadas durante a Sprint 3:
+
+- Sprint Planning;
+- Registros das Dailies;
+- Sprint Review.
+
+A documentação completa está disponível em:
+
+➡️ [CERIMONIAS_SCRUM.md](CERIMONIAS_SCRUM.md)
 
 🏗️ 9. Arquitetura Técnica (refinamento)
 <!-- TODO: descrever aqui as decisões de arquitetura consolidadas até a Sprint 3, com base na stack já definida no item 3 (Python, OpenCV/YOLOv8, MediaPipe, FastAPI, Oracle Database, Streamlit/React) -->
