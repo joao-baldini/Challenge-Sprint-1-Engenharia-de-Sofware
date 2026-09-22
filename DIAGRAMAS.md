@@ -1,127 +1,63 @@
-### A. Diagrama de Casos de Uso
+# Diagramas UML — SPI Alert (FutureVision)
+
+## A. Diagrama de Casos de Uso
+
 ```mermaid
-graph TD
-    %% Definição dos Atores
+graph LR
     Operador((Operador de Campo))
     Supervisor((Supervisor de SST))
-    SistemaCamera((Câmera / Sistema de Visão))
+    Camera((Câmera / Sistema de Visão))
 
-    %% Limite do Sistema SafeHorizon
-    subgraph Sistema SafeHorizon
+    subgraph SPIAlert["Sistema SPI Alert"]
+
+        UC0(Autenticar Usuário)
+
         UC1(Processar Feed de Vídeo)
         UC2(Detectar Uso de EPIs)
         UC3(Analisar Postura e Perímetro)
+
         UC4(Emitir Alerta Proativo)
-        UC5(Visualizar Dashboard em Tempo Real)
+        UC5(Visualizar Dashboard)
         UC6(Gerar Relatório de Conformidade)
+
+        UC7(Consultar Alertas)
+        UC8(Visualizar Detalhe do Alerta)
+        UC9(Tratar / Resolver Alerta)
+        UC10(Escalar para Segurança)
+
+        UC11(Consultar Colaboradores)
+        UC12(Visualizar EPIs do Colaborador)
+        UC13(Cadastrar EPI)
+        UC14(Validar Dados do EPI)
+
+        UC15(Exportar / Compartilhar Relatório)
     end
 
-    %% Relacionamentos do Sistema de Visão
-    SistemaCamera --> UC1
-    UC1 -.-> |"&lt;&lt;include&gt;&gt;"| UC2
-    UC1 -.-> |"&lt;&lt;include&gt;&gt;"| UC3
+    Supervisor --> UC0
 
-    %% Extensões para o Alerta Proativo
-    UC2 -.-> |"&lt;&lt;extend&gt;&gt; (Se ausência detectada)"| UC4
-    UC3 -.-> |"&lt;&lt;extend&gt;&gt; (Se risco de invasão/postura)"| UC4
+    Camera --> UC1
+    UC1 -.->|"include"| UC2
+    UC1 -.->|"include"| UC3
 
-    %% Interações com os Atores Humanos
-    UC4 -.-> |"Notifica (Visual/Sonoro)"| Operador
-    UC4 -.-> |"Envia Evento"| Supervisor
+    UC2 -.->|"extend: ausência de EPI"| UC4
+    UC3 -.->|"extend: risco detectado"| UC4
 
-    %% Relacionamentos do Supervisor
+    UC4 -.->|"Notificação visual/sonora"| Operador
+    UC4 -.->|"Evento de segurança"| Supervisor
+
     Supervisor --> UC5
+
+    Supervisor --> UC7
+    UC7 --> UC8
+    UC8 --> UC9
+    UC8 --> UC10
+
+    Supervisor --> UC4
+
+    Supervisor --> UC11
+    UC11 --> UC12
+    UC12 --> UC13
+    UC13 -.->|"include"| UC14
+
     Supervisor --> UC6
-```
-### B. Diagrama de Atividades
-```mermaid
-stateDiagram-v2
-    [*] --> AguardandoFrame
-    AguardandoFrame --> CapturarFrame : Feed RTSP Ativo
-    CapturarFrame --> ProcessarIA : Frame Enviado ao Pipeline
-
-    state ProcessarIA {
-        [*] --> ExecutarYOLO : Detecção de Objetos (EPIs)
-        [*] --> ExecutarMediaPipe : Pose Estimation (Postura)
-        ExecutarYOLO --> UnificarAnalise
-        ExecutarMediaPipe --> UnificarAnalise
-    }
-
-    ProcessorIA --> AvaliarRisco
-
-    state AvaliarRisco <<choice>>
-    AvaliarRisco --> RegistrarLog : Condições Seguras (100% OK)
-    AvaliarRisco --> IniciarFluxoAlerta : Inconformidade ou Risco de Incidente
-
-    state IniciarFluxoAlerta {
-        [*] --> AtivarSinalizacaoLocal : Disparar Alerta Sonoro/Visual na Célula
-        [*] --> AtualizarPainelSST : Plotar Alerta no Dashboard do Supervisor
-        [*] --> PersistirEvento : Gravar Dados no Oracle SQL
-    }
-
-    RegistrarLog --> AguardandoFrame
-    IniciarFluxoAlerta --> AguardandoFrame
-```
-### C. Diagrama de Classes
-```mermaid
-classDiagram
-    class Usuario {
-        +int idUsuario
-        +string nome
-        +string matricula
-        +string email
-        +autenticar() boolean
-    }
-
-    class Operador {
-        +string setorAtuacao
-        +string turno
-        +obterHistoricoRisco() List
-    }
-
-    class SupervisorSST {
-        +string nivelAcesso
-        +visualizarDashboard() void
-        +exportarRelatorio(int idSetor) void
-    }
-
-    class DispositivoCamera {
-        +int idCamera
-        +string localizacaoCod
-        +string ipAddress
-        +boolean statusAtivo
-        +capturarStream() Object
-    }
-
-    class ProcessadorIA {
-        +float thresholdConfianca
-        +string versaoModelo
-        +detectarEPIs(Object frame) List
-        +analisarPose(Object frame) Object
-    }
-
-    class AlertaRisco {
-        +int idAlerta
-        +dateTime dataHora
-        +string tipoRisco
-        +string nivelSeveridade
-        +boolean statusAtivo
-        +salvarAlerta() boolean
-        +dispararNotificacao() void
-    }
-
-    class RegistroConformidade {
-        +int idRegistro
-        +int totalAlertasSetor
-        +float indiceSeguranca
-        +compilarMétricas() void
-    }
-
-    Usuario <|-- Operador
-    Usuario <|-- SupervisorSST
-    DispositivoCamera --> ProcessadorIA
-    ProcessadorIA --> AlertaRisco
-    Operador "1" -- "*" AlertaRisco
-    SupervisorSST "1" -- "*" RegistroConformidade
-    RegistroConformidade *-- "*" AlertaRisco
-```
+    UC6 --> UC15
