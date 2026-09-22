@@ -396,23 +396,57 @@ body {
 .p20 { padding: 0 20px; }
 .mt8 { margin-top: 8px; }
 .mb16 { margin-bottom: 16px; }
+
+.empty-state { text-align:center; padding:28px 12px; color:var(--text3); font-size:13px; }
+.toast { position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px); background:#1A1A18; color:white; padding:12px 16px; border-radius:12px; font-size:13px; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:.2s; z-index:9999; max-width:340px; text-align:center; }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.input-error { border-color:var(--red)!important; background:var(--red-light)!important; }
+.login-device .status-bar { padding-top:14px; }
+.login-screen { min-height:790px; justify-content:center; padding:32px 24px 90px; }
+.login-logo { background:linear-gradient(135deg,#E34F2B,#C9341E); color:white; }
+.login-form { width:100%; margin-top:34px; }
+.login-form .form-label { margin-top:14px; color:#9B9186; font-weight:700; }
+.login-form .form-input { height:45px; margin-bottom:0; background:#F7F5F1; }
+.login-form .btn-primary { margin-top:14px; height:53px; }
+.login-form .btn-secondary { height:49px; background:#F7F5F1; }
+.login-error { min-height:18px; font-size:11px; color:var(--red); margin-top:6px; }
+
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<div class="nav-bar">
-  <button class="nav-btn ativo" onclick="irPara('home')">🏠 Home</button>
+<div class="nav-bar" id="top-nav" style="display:none">
+  <button class="nav-btn ativo" data-nav="home" onclick="irPara('home')">🏠 Home</button>
   <span class="nav-sep">›</span>
-  <button class="nav-btn" onclick="irPara('lista-colaboradores')">👷 EPIs</button>
+  <button class="nav-btn" data-nav="epis" onclick="irPara('lista-colaboradores')">👷 EPIs</button>
   <span class="nav-sep">›</span>
-  <button class="nav-btn" onclick="irPara('lista-alertas')">⚠️ Alertas</button>
+  <button class="nav-btn" data-nav="alertas" onclick="irPara('lista-alertas')">⚠️ Alertas</button>
   <span class="nav-sep">›</span>
-  <button class="nav-btn" onclick="irPara('relatorio')">📊 Relatório</button>
+  <button class="nav-btn" data-nav="relatorio" onclick="irPara('relatorio')">📊 Relatório</button>
+</div>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div class="device ativo login-device" id="login">
+  <div class="status-bar"><span>9:41</span><div class="status-icons">📶 🔋</div></div>
+  <div class="login-screen">
+    <div class="login-logo">🛡️</div>
+    <div class="login-title">SPI Alert</div>
+    <div class="login-sub">Sistema de Prevenção Inteligente<br>Metaindústria</div>
+    <div class="login-form">
+      <label class="form-label">Matrícula</label>
+      <input id="login-matricula" class="form-input" placeholder="Ex: 00247" autocomplete="username">
+      <label class="form-label">Senha</label>
+      <input id="login-senha" class="form-input" type="password" placeholder="••••••••" autocomplete="current-password">
+      <div id="login-error" class="login-error"></div>
+      <button class="btn-primary" onclick="entrar()">Entrar</button>
+      <button class="btn-secondary" onclick="toast('Solicitação de recuperação de senha iniciada.')">Esqueci minha senha</button>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════════ HOME ═══════════ -->
-<div class="device ativo" id="home">
+<div class="device" id="home">
   <div class="status-bar">
     <span style="font-family:'DM Mono'">9:41</span>
     <div class="status-icons">📶 🔋</div>
@@ -468,7 +502,7 @@ body {
           <div class="menu-label">Relatório de Conformidade</div>
           <div class="menu-sub">Por setor</div>
         </div>
-        <div class="menu-item">
+        <div class="menu-item" onclick="toast('Monitoramento de câmeras aberto em modo demonstrativo.')">
           <div class="menu-icon" style="background:var(--green-light)">📷</div>
           <div class="menu-label">Monitoramento</div>
           <div class="menu-sub">Câmeras ao vivo</div>
@@ -522,15 +556,15 @@ body {
   </div>
   <div class="screen-content">
     <div class="section" style="padding-bottom:12px">
-      <input class="form-input" placeholder="🔍  Buscar colaborador..." style="margin-bottom:0"/>
+      <input id="busca-colaborador" class="form-input" placeholder="🔍  Buscar colaborador..." style="margin-bottom:0" oninput="filtrarColaboradores()"/>
     </div>
-    <div class="tabs">
-      <div class="tab ativo">Todos</div>
-      <div class="tab">Irregulares</div>
-      <div class="tab">Vencendo</div>
+    <div class="tabs" id="tabs-colab">
+      <div class="tab ativo" data-filter="todos" onclick="selecionarTabColab(this)">Todos</div>
+      <div class="tab" data-filter="irregular" onclick="selecionarTabColab(this)">Irregulares</div>
+      <div class="tab" data-filter="vencendo" onclick="selecionarTabColab(this)">Vencendo</div>
     </div>
-    <div class="p20">
-      <div class="colab-card" onclick="irPara('perfil-colaborador')">
+    <div class="p20" id="lista-colab-container">
+      <div class="colab-card" data-status="regular" onclick="irPara('perfil-colaborador')">
         <div class="colab-avatar">MA</div>
         <div>
           <div class="colab-name">Marcos Alves</div>
@@ -541,7 +575,7 @@ body {
           <span style="font-size:11px;color:var(--text3)">6 EPIs</span>
         </div>
       </div>
-      <div class="colab-card" onclick="irPara('perfil-colaborador')">
+      <div class="colab-card" data-status="vencendo" onclick="irPara('perfil-colaborador')">
         <div class="colab-avatar" style="background:linear-gradient(135deg,#E07B2B,#C46020)">FS</div>
         <div>
           <div class="colab-name">Felipe Santos</div>
@@ -552,7 +586,7 @@ body {
           <span style="font-size:11px;color:var(--text3)">4 EPIs</span>
         </div>
       </div>
-      <div class="colab-card" onclick="irPara('perfil-colaborador')">
+      <div class="colab-card" data-status="irregular" onclick="irPara('perfil-colaborador')">
         <div class="colab-avatar" style="background:linear-gradient(135deg,#D92B2B,#B02020)">JR</div>
         <div>
           <div class="colab-name">João Rocha</div>
@@ -563,7 +597,7 @@ body {
           <span style="font-size:11px;color:var(--text3)">2 EPIs</span>
         </div>
       </div>
-      <div class="colab-card" onclick="irPara('perfil-colaborador')">
+      <div class="colab-card" data-status="regular" onclick="irPara('perfil-colaborador')">
         <div class="colab-avatar" style="background:linear-gradient(135deg,#2B9E5A,#1A7A44)">CL</div>
         <div>
           <div class="colab-name">Carlos Lima</div>
@@ -574,6 +608,7 @@ body {
           <span style="font-size:11px;color:var(--text3)">5 EPIs</span>
         </div>
       </div>
+      <div id="empty-colab" class="empty-state" style="display:none">Nenhum colaborador encontrado.</div>
     </div>
   </div>
   <div class="bottom-nav">
@@ -649,9 +684,15 @@ body {
 
       <div class="p20" style="padding:0">
         <button class="btn-primary" onclick="irPara('cadastro-epi')">+ Cadastrar Novo EPI</button>
-        <button class="btn-secondary">📄 Gerar Ficha Individual</button>
+        <button class="btn-secondary" onclick="toast('Ficha individual gerada com sucesso.')">📄 Gerar Ficha Individual</button>
       </div>
     </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="irPara('home')"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item" onclick="irPara('lista-alertas')"><div class="nav-icon">⚠️</div><div class="nav-label">Alertas</div></div>
+    <div class="nav-item ativo" onclick="irPara('lista-colaboradores')"><div class="nav-icon">👷</div><div class="nav-label">EPIs</div></div>
+    <div class="nav-item" onclick="irPara('relatorio')"><div class="nav-icon">📊</div><div class="nav-label">Relatório</div></div>
   </div>
 </div>
 
@@ -668,35 +709,35 @@ body {
       <input class="form-input filled" value="Marcos Alves — Mat. #00247" readonly/>
 
       <label class="form-label">Tipo de EPI</label>
-      <div class="chip-row">
-        <div class="chip ativo laranja">⛑️ Capacete</div>
-        <div class="chip">🦺 Colete</div>
-        <div class="chip">🥽 Óculos</div>
-        <div class="chip">🧤 Luvas</div>
-        <div class="chip">👟 Bota</div>
-        <div class="chip">😷 Máscara</div>
+      <div class="chip-row selectable" data-group="epi">
+        <div class="chip ativo laranja" data-value="Capacete" onclick="selectChip(this,'laranja')">⛑️ Capacete</div>
+        <div class="chip" data-value="Colete" onclick="selectChip(this,'laranja')">🦺 Colete</div>
+        <div class="chip" data-value="Óculos" onclick="selectChip(this,'laranja')">🥽 Óculos</div>
+        <div class="chip" data-value="Luvas" onclick="selectChip(this,'laranja')">🧤 Luvas</div>
+        <div class="chip" data-value="Bota" onclick="selectChip(this,'laranja')">👟 Bota</div>
+        <div class="chip" data-value="Máscara" onclick="selectChip(this,'laranja')">😷 Máscara</div>
       </div>
 
       <label class="form-label">Número de CA (Certificado de Aprovação)</label>
-      <input class="form-input" placeholder="Ex: CA 12345"/>
+      <input id="epi-ca" class="form-input" placeholder="Ex: CA 12345"/>
 
       <label class="form-label">Data de Entrega</label>
       <input class="form-input filled" value="21/05/2026" type="text"/>
 
       <label class="form-label">Data de Validade</label>
-      <input class="form-input" placeholder="DD/MM/AAAA"/>
+      <input id="epi-validade" class="form-input" placeholder="DD/MM/AAAA"/>
 
       <label class="form-label">Condição</label>
-      <div class="chip-row">
-        <div class="chip ativo verde">✅ Novo</div>
-        <div class="chip">🔄 Reposto</div>
-        <div class="chip">⚠️ Danificado</div>
+      <div class="chip-row selectable" data-group="condicao">
+        <div class="chip ativo verde" data-value="Novo" onclick="selectChip(this,'verde')">✅ Novo</div>
+        <div class="chip" data-value="Reposto" onclick="selectChip(this,'verde')">🔄 Reposto</div>
+        <div class="chip" data-value="Danificado" onclick="selectChip(this,'verde')">⚠️ Danificado</div>
       </div>
 
       <label class="form-label">Observações</label>
       <textarea class="form-input" style="height:80px;resize:none" placeholder="Observações opcionais..."></textarea>
 
-      <button class="btn-primary" onclick="irPara('sucesso-epi')">Registrar EPI</button>
+      <button class="btn-primary" onclick="registrarEPI()">Registrar EPI</button>
       <button class="btn-secondary" onclick="irPara('perfil-colaborador')">Cancelar</button>
     </div>
   </div>
@@ -708,7 +749,7 @@ body {
   <div class="sucesso-screen">
     <div class="sucesso-icon">✅</div>
     <div class="sucesso-title">EPI Registrado!</div>
-    <div class="sucesso-sub">O capacete de segurança foi cadastrado com sucesso para Marcos Alves.</div>
+    <div class="sucesso-sub" id="sucesso-epi-texto">O capacete de segurança foi cadastrado com sucesso para Marcos Alves.</div>
     <button class="btn-primary" onclick="irPara('perfil-colaborador')">Ver Perfil do Colaborador</button>
     <button class="btn-secondary" onclick="irPara('lista-colaboradores')">Voltar à Lista</button>
   </div>
@@ -723,13 +764,13 @@ body {
     <button class="top-action" onclick="irPara('emitir-alerta')">+ Emitir</button>
   </div>
   <div class="screen-content">
-    <div class="tabs">
-      <div class="tab ativo">Abertos (4)</div>
-      <div class="tab">Em Análise</div>
-      <div class="tab">Resolvidos</div>
+    <div class="tabs" id="tabs-alerta">
+      <div class="tab ativo" data-filter="aberto" onclick="selecionarTabAlerta(this)">Abertos (4)</div>
+      <div class="tab" data-filter="analise" onclick="selecionarTabAlerta(this)">Em Análise</div>
+      <div class="tab" data-filter="resolvido" onclick="selecionarTabAlerta(this)">Resolvidos</div>
     </div>
-    <div class="p20">
-      <div class="alert-item critico" onclick="irPara('detalhe-alerta')">
+    <div class="p20" id="lista-alerta-container">
+      <div class="alert-item critico" data-status="aberto" onclick="irPara('detalhe-alerta')">
         <div class="alert-row">
           <span class="alert-tipo">Zona Perigosa</span>
           <span class="badge critico">CRÍTICO</span>
@@ -740,7 +781,7 @@ body {
           <span class="alert-time">13:15</span>
         </div>
       </div>
-      <div class="alert-item alto" onclick="irPara('detalhe-alerta')">
+      <div class="alert-item alto" data-status="analise" onclick="irPara('detalhe-alerta')">
         <div class="alert-row">
           <span class="alert-tipo">Sem Capacete</span>
           <span class="badge alto">ALTO</span>
@@ -751,7 +792,7 @@ body {
           <span class="alert-time">14:30</span>
         </div>
       </div>
-      <div class="alert-item medio" onclick="irPara('detalhe-alerta')">
+      <div class="alert-item medio" data-status="aberto" onclick="irPara('detalhe-alerta')">
         <div class="alert-row">
           <span class="alert-tipo">Postura de Risco</span>
           <span class="badge medio">MÉDIO</span>
@@ -762,7 +803,7 @@ body {
           <span class="alert-time">11:00</span>
         </div>
       </div>
-      <div class="alert-item baixo" onclick="irPara('detalhe-alerta')">
+      <div class="alert-item baixo" data-status="resolvido" onclick="irPara('detalhe-alerta')">
         <div class="alert-row">
           <span class="alert-tipo">Sem Luva</span>
           <span class="badge baixo">BAIXO</span>
@@ -773,6 +814,7 @@ body {
           <span class="alert-time">09:45</span>
         </div>
       </div>
+      <div id="empty-alerta" class="empty-state" style="display:none">Nenhum alerta encontrado.</div>
     </div>
   </div>
   <div class="bottom-nav">
@@ -815,10 +857,16 @@ body {
         <div class="info-card-title">Descrição</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.6">Operador detectado dentro da zona de exclusão da prensa hidráulica sem autorização nem EPI adequado. Sistema acionou alerta sonoro imediatamente.</p>
       </div>
-      <button class="btn-danger">🚨 Escalar para Segurança</button>
+      <button class="btn-danger" onclick="toast('Alerta escalado para a equipe de Segurança.')">🚨 Escalar para Segurança</button>
       <button class="btn-primary" onclick="irPara('lista-alertas')" style="background:var(--green)">✅ Marcar como Resolvido</button>
       <button class="btn-secondary" onclick="irPara('lista-alertas')">← Voltar</button>
     </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="irPara('home')"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item ativo" onclick="irPara('lista-alertas')"><div class="nav-icon">⚠️</div><div class="nav-label">Alertas</div></div>
+    <div class="nav-item" onclick="irPara('lista-colaboradores')"><div class="nav-icon">👷</div><div class="nav-label">EPIs</div></div>
+    <div class="nav-item" onclick="irPara('relatorio')"><div class="nav-icon">📊</div><div class="nav-label">Relatório</div></div>
   </div>
 </div>
 
@@ -832,29 +880,29 @@ body {
   <div class="screen-content">
     <div class="form-section">
       <label class="form-label">Tipo de Risco</label>
-      <div class="chip-row">
-        <div class="chip ativo vermelho">⚠️ Zona Perigosa</div>
-        <div class="chip">⛑️ Sem Capacete</div>
-        <div class="chip">🦺 Sem Colete</div>
-        <div class="chip">🧤 Sem Luva</div>
-        <div class="chip">🏃 Postura</div>
+      <div class="chip-row selectable" data-group="risco">
+        <div class="chip ativo vermelho" data-value="Zona Perigosa" onclick="selectChip(this,'vermelho')">⚠️ Zona Perigosa</div>
+        <div class="chip" data-value="Sem Capacete" onclick="selectChip(this,'vermelho')">⛑️ Sem Capacete</div>
+        <div class="chip" data-value="Sem Colete" onclick="selectChip(this,'vermelho')">🦺 Sem Colete</div>
+        <div class="chip" data-value="Sem Luva" onclick="selectChip(this,'vermelho')">🧤 Sem Luva</div>
+        <div class="chip" data-value="Postura" onclick="selectChip(this,'vermelho')">🏃 Postura</div>
       </div>
 
       <label class="form-label">Nível de Severidade</label>
-      <div class="chip-row">
-        <div class="chip ativo vermelho">🔴 Crítico</div>
-        <div class="chip">🟠 Alto</div>
-        <div class="chip">🟡 Médio</div>
-        <div class="chip">🟢 Baixo</div>
+      <div class="chip-row selectable" data-group="severidade">
+        <div class="chip ativo vermelho" data-value="Crítico" onclick="selectChip(this,'vermelho')">🔴 Crítico</div>
+        <div class="chip" data-value="Alto" onclick="selectChip(this,'vermelho')">🟠 Alto</div>
+        <div class="chip" data-value="Médio" onclick="selectChip(this,'vermelho')">🟡 Médio</div>
+        <div class="chip" data-value="Baixo" onclick="selectChip(this,'vermelho')">🟢 Baixo</div>
       </div>
 
       <label class="form-label">Localização</label>
-      <div class="chip-row">
-        <div class="chip ativo azul">🏭 Setor A</div>
-        <div class="chip">🏭 Setor B</div>
-        <div class="chip">📦 Almoxarifado</div>
-        <div class="chip">🧪 Lab. Químico</div>
-        <div class="chip">🚛 Pátio</div>
+      <div class="chip-row selectable" data-group="local">
+        <div class="chip ativo azul" data-value="Setor A" onclick="selectChip(this,'azul')">🏭 Setor A</div>
+        <div class="chip" data-value="Setor B" onclick="selectChip(this,'azul')">🏭 Setor B</div>
+        <div class="chip" data-value="Almoxarifado" onclick="selectChip(this,'azul')">📦 Almoxarifado</div>
+        <div class="chip" data-value="Lab. Químico" onclick="selectChip(this,'azul')">🧪 Lab. Químico</div>
+        <div class="chip" data-value="Pátio" onclick="selectChip(this,'azul')">🚛 Pátio</div>
       </div>
 
       <label class="form-label">Câmera</label>
@@ -864,9 +912,9 @@ body {
       <input class="form-input" placeholder="Buscar colaborador..."/>
 
       <label class="form-label">Descrição</label>
-      <textarea class="form-input" style="height:80px;resize:none" placeholder="Descreva o risco detectado..."></textarea>
+      <textarea id="alerta-descricao" class="form-input" style="height:80px;resize:none" placeholder="Descreva o risco detectado..."></textarea>
 
-      <button class="btn-danger" onclick="irPara('sucesso-alerta')">🚨 Emitir Alerta</button>
+      <button class="btn-danger" onclick="emitirAlerta()">🚨 Emitir Alerta</button>
       <button class="btn-secondary" onclick="irPara('lista-alertas')">Cancelar</button>
     </div>
   </div>
@@ -878,7 +926,7 @@ body {
   <div class="sucesso-screen">
     <div class="sucesso-icon" style="background:var(--red-light);border-color:var(--red)">🚨</div>
     <div class="sucesso-title">Alerta Emitido!</div>
-    <div class="sucesso-sub">O alerta crítico de Zona Perigosa foi emitido e a equipe de segurança foi notificada automaticamente.</div>
+    <div class="sucesso-sub" id="sucesso-alerta-texto">O alerta crítico de Zona Perigosa foi emitido e a equipe de segurança foi notificada automaticamente.</div>
     <button class="btn-primary" onclick="irPara('detalhe-alerta')">Ver Detalhe do Alerta</button>
     <button class="btn-secondary" onclick="irPara('lista-alertas')">Voltar à Lista</button>
   </div>
@@ -976,8 +1024,8 @@ body {
         </div>
       </div>
 
-      <button class="btn-primary" style="background:var(--blue)">📥 Exportar PDF</button>
-      <button class="btn-secondary">📧 Enviar por E-mail</button>
+      <button class="btn-primary" style="background:var(--blue)" onclick="toast('Relatório preparado para exportação em PDF.')">📥 Exportar PDF</button>
+      <button class="btn-secondary" onclick="toast('Relatório encaminhado para envio por e-mail.')">📧 Enviar por E-mail</button>
     </div>
   </div>
   <div class="bottom-nav">
@@ -989,20 +1037,32 @@ body {
 </div>
 
 <script>
+let filtroColab = 'todos';
 function irPara(id) {
   document.querySelectorAll('.device').forEach(d => d.classList.remove('ativo'));
-  document.getElementById(id).classList.add('ativo');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
-  const map = { home:'home', 'lista-colaboradores':'👷 EPIs', 'perfil-colaborador':'👷 EPIs', 'cadastro-epi':'👷 EPIs', 'sucesso-epi':'👷 EPIs', 'lista-alertas':'⚠️ Alertas', 'detalhe-alerta':'⚠️ Alertas', 'emitir-alerta':'⚠️ Alertas', 'sucesso-alerta':'⚠️ Alertas', relatorio:'📊 Relatório' };
-  document.querySelectorAll('.nav-btn').forEach(b => {
-    if ((id === 'home' && b.textContent.includes('Home')) ||
-        (map[id] && b.textContent.includes(map[id].replace(/[🏠👷⚠️📊]/g,'').trim()))) {
-      b.classList.add('ativo');
-    }
-  });
-  window.scrollTo(0, 0);
+  const tela=document.getElementById(id); if(tela) tela.classList.add('ativo'); const topNav=document.getElementById('top-nav'); if(topNav) topNav.style.display=id==='login'?'none':'flex';
+  const navMap={home:'home','lista-colaboradores':'epis','perfil-colaborador':'epis','cadastro-epi':'epis','sucesso-epi':'epis','lista-alertas':'alertas','detalhe-alerta':'alertas','emitir-alerta':'alertas','sucesso-alerta':'alertas',relatorio:'relatorio'};
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('ativo',b.dataset.nav===navMap[id]));
+  window.scrollTo(0,0);
 }
-irPara('home');
+function entrar(){
+  const mat=document.getElementById('login-matricula');
+  const senha=document.getElementById('login-senha');
+  const erro=document.getElementById('login-error');
+  [mat,senha].forEach(x=>x.classList.remove('input-error')); erro.textContent='';
+  if(!mat.value.trim()){mat.classList.add('input-error');erro.textContent='Informe sua matrícula.';mat.focus();return;}
+  if(!senha.value.trim()){senha.classList.add('input-error');erro.textContent='Informe sua senha.';senha.focus();return;}
+  toast('Login realizado com sucesso.'); irPara('home');
+}
+function toast(msg){ let t=document.getElementById('toast'); if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)} t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),2400); }
+function selectChip(el,color){ const row=el.closest('.chip-row'); row.querySelectorAll('.chip').forEach(c=>{c.className='chip'}); el.classList.add('ativo',color); }
+function selected(group){ const el=document.querySelector(`.chip-row[data-group="${group}"] .chip.ativo`); return el?el.dataset.value:''; }
+function selecionarTabColab(el){ document.querySelectorAll('#tabs-colab .tab').forEach(t=>t.classList.remove('ativo'));el.classList.add('ativo');filtroColab=el.dataset.filter;filtrarColaboradores(); }
+function filtrarColaboradores(){ const q=(document.getElementById('busca-colaborador')?.value||'').toLowerCase().trim();let vis=0;document.querySelectorAll('#lista-colab-container .colab-card').forEach(c=>{const okFiltro=filtroColab==='todos'||c.dataset.status===filtroColab;const okBusca=c.textContent.toLowerCase().includes(q);const show=okFiltro&&okBusca;c.style.display=show?'flex':'none';if(show)vis++});const e=document.getElementById('empty-colab');if(e)e.style.display=vis?'none':'block'; }
+function selecionarTabAlerta(el){ document.querySelectorAll('#tabs-alerta .tab').forEach(t=>t.classList.remove('ativo'));el.classList.add('ativo');const f=el.dataset.filter;let vis=0;document.querySelectorAll('#lista-alerta-container .alert-item').forEach(a=>{const show=a.dataset.status===f;a.style.display=show?'block':'none';if(show)vis++});document.getElementById('empty-alerta').style.display=vis?'none':'block'; }
+function registrarEPI(){ const ca=document.getElementById('epi-ca'), val=document.getElementById('epi-validade');[ca,val].forEach(x=>x.classList.remove('input-error'));if(!ca.value.trim()){ca.classList.add('input-error');toast('Informe o número do CA.');ca.focus();return}if(!/^\d{2}\/\d{2}\/\d{4}$/.test(val.value.trim())){val.classList.add('input-error');toast('Informe a validade no formato DD/MM/AAAA.');val.focus();return}const tipo=selected('epi')||'EPI';const cond=selected('condicao')||'Novo';document.getElementById('sucesso-epi-texto').textContent=`${tipo} (${cond}) cadastrado com sucesso para Marcos Alves. CA: ${ca.value.trim()} · Validade: ${val.value.trim()}.`;irPara('sucesso-epi'); }
+function emitirAlerta(){ const d=document.getElementById('alerta-descricao');d.classList.remove('input-error');if(!d.value.trim()){d.classList.add('input-error');toast('Descreva o risco antes de emitir o alerta.');d.focus();return}const risco=selected('risco')||'Risco';const sev=selected('severidade')||'Crítico';const loc=selected('local')||'Local não informado';document.getElementById('sucesso-alerta-texto').textContent=`Alerta ${sev.toLowerCase()} de ${risco} emitido para ${loc}. A equipe de segurança foi notificada automaticamente.`;irPara('sucesso-alerta'); }
+document.addEventListener('DOMContentLoaded',()=>{ document.getElementById('login-senha')?.addEventListener('keydown',e=>{if(e.key==='Enter') entrar()}); irPara('login'); const first=document.querySelector('#tabs-alerta .tab.ativo'); if(first) selecionarTabAlerta(first); });
 </script>
 </body>
 </html>
