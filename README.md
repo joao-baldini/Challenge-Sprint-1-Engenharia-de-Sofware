@@ -544,7 +544,7 @@ O acompanhamento das atividades foi estruturado com as seguintes listas:
 
 ### Link do Trello
 
-[**SPI Alert — FutureVision | Board Scrum**](https://trello.com/invite/b/6ab1ddd41dfe3844ba17ad61/ATTI1a4b448a4c20d288a998f1fd41372de577EBAD2B/spi-alert-sprint-3-futurevision)
+[**SPI Alert — FutureVision | Board Scrum**](https://trello.com/b/kyfYSZDH/spi-alert-sprint-4-futurevision)
 
 **Atenção:** o link acima é um convite para o board. Antes da entrega, o grupo deverá confirmar o acesso dos avaliadores e substituir pelo link público de visualização, caso seja diferente.
 
@@ -599,27 +599,25 @@ A ata deve refletir a reunião e os resultados reais, após sua realização.
 
 # 11. Testes e Validação
 
-## 11.1 Fluxos a Validar
+## 11.1 Fluxos Validados
 
-Antes da entrega, o grupo deverá testar:
+Antes da entrega, o grupo deverá testou:
 
-- [ ] Abertura do arquivo HTML.
-- [ ] Login com matrícula e senha preenchidas.
-- [ ] Navegação entre todas as telas.
-- [ ] Cadastro de um novo EPI.
-- [ ] Exibição do EPI na tabela.
-- [ ] Identificação de EPIs irregulares.
-- [ ] Emissão de um novo alerta.
-- [ ] Alteração de status para Em análise.
-- [ ] Resolução de um alerta.
-- [ ] Atualização dos indicadores.
-- [ ] Visualização das câmeras simuladas.
-- [ ] Consulta aos relatórios.
-- [ ] Impressão ou salvamento em PDF.
-- [ ] Persistência após atualização da página.
-- [ ] Restauração dos dados iniciais.
-
-**Importante:** os itens devem ser marcados como concluídos somente depois de testados.
+ Abertura do arquivo HTML.
+ Login com matrícula e senha preenchidas.
+ Navegação entre todas as telas.
+ Cadastro de um novo EPI.
+ Exibição do EPI na tabela.
+ Identificação de EPIs irregulares.
+ Emissão de um novo alerta.
+ Alteração de status para Em análise.
+ Resolução de um alerta.
+ Atualização dos indicadores.
+ Visualização das câmeras simuladas.
+ Consulta aos relatórios.
+ Impressão ou salvamento em PDF.
+ Persistência após atualização da página.
+ Restauração dos dados iniciais.
 
 ---
 
@@ -683,9 +681,9 @@ O vídeo deverá contar com a participação dos integrantes e suas próprias fa
 
 ## 13.4 Link do Vídeo
 
-**YouTube — Vídeo não listado:**
+**SPI Alert — Sprint 4 Demonstração Final**
 
-`INSERIR_LINK_DO_VIDEO_AQUI`
+`https://youtu.be/WIDhLLv6x5U`
 
 ---
 
